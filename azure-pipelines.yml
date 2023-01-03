@@ -21,18 +21,33 @@ pool:
   vmImage: $(imageName)
 
 steps:
-  - task: Kubernetes@1
-    inputs:
-      connectionType: 'Kubernetes Service Connection'
-      KubernetesServiceEndpoint: 'serviceconnectionakslain'
-#      namespace: 'default'
-      command: 'top'
-      arguments: 'pod'
+- task: Kubernetes@1
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    KubernetesServiceEndpoint: 'serviceconnectionakslain'
+#     namespace: 'default'
+    command: 'top'
+    arguments: 'pod'
 
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |   
-        TESTVAR=$(curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')
-        echo "bli bla blou !"
-        echo "RESULTAT $TESTVAR"
+- task: Cache@2
+  inputs:
+    key: 'toto'
+    path: '/home/brief7/ver'
+    cacheHitVar: 'testcache'
+
+# la partie ci dessous récupère le numéro de version dans la variable d'env "TESTVAR"
+# déroulé du job : OK - trouver une solution pour stocker le résultat de la variable -> avec "cache"
+- task: Bash@3
+  inputs:
+    targetType: 'inline'
+    script: |   
+      mkdir /home/brief7/ver
+      TESTVAR=$(curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')
+      echo "bli bla blou !"
+      echo "RESULTAT $TESTVAR" > /home/brief7/ver/version
+
+- task: Cache@2
+  inputs:
+    key: 'toto'
+    path: '/home/brief7/ver'
+    cacheHitVar: 'testcache'
