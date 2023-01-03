@@ -28,3 +28,9 @@ steps:
       namespace: 'default'
       command: 'top'
       arguments: 'pod'
+
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
+      script: |   
+        curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]'
