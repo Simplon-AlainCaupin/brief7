@@ -35,5 +35,9 @@ steps:
       script: |   
         curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]'
       bashEnvValue: 'VERSIONAPP'
+  
+  - task: Bash@3
+    inputs:
+      targetType: 'inline'
       script: |
         echo $VERSIONAPP
