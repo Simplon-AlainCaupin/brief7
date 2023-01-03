@@ -32,7 +32,7 @@ steps:
 - task: Cache@2
   inputs:
     key: 'toto'
-    path: '/home/brief7/ver'
+    path: '/home/vsts/ver'
     cacheHitVar: 'testcache'
 
 # la partie ci dessous récupère le numéro de version dans la variable d'env "TESTVAR"
@@ -41,13 +41,15 @@ steps:
   inputs:
     targetType: 'inline'
     script: |   
-      mkdir /home/brief7/ver
+      mkdir /home/vsts/ver
       TESTVAR=$(curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')
       echo "bli bla blou !"
-      echo "RESULTAT $TESTVAR" > /home/brief7/ver/version
+      echo "RESULTAT $TESTVAR" > /home/vsts/ver/version
+      echo "------------- blblblbl ------------"
+      cat /home/vsts/ver/version
 
 - task: Cache@2
   inputs:
     key: 'toto'
-    path: '/home/brief7/ver'
+    path: '/home/vsts/ver'
     cacheHitVar: 'testcache'
