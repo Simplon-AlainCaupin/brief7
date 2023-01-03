@@ -25,7 +25,7 @@ steps:
     inputs:
       connectionType: 'Kubernetes Service Connection'
       KubernetesServiceEndpoint: 'serviceconnectionakslain'
-      namespace: 'default'
+#      namespace: 'default'
       command: 'top'
       arguments: 'pod'
 
@@ -33,11 +33,6 @@ steps:
     inputs:
       targetType: 'inline'
       script: |   
-        curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]'
-      bashEnvValue: 'VERSIONAPP'
-  
-  - task: Bash@3
-    inputs:
-      targetType: 'inline'
-      script: |
-        echo $VERSIONAPP
+        TESTVAR=$(curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')
+        echo "bli bla blou !"
+        echo "RESULTAT $TESTVAR"
