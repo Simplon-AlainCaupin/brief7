@@ -48,6 +48,8 @@ steps:
       echo "------------- blblblbl ------------"
       echo "RESULTAT :"
       cat /home/vsts/ver/version
+  
+
 
 - task: Cache@2
   inputs:
@@ -62,4 +64,3 @@ steps:
     defaultVersionType: 'latest'
     itemPattern: '*app*'
     downloadPath: /home/vsts/gitrelease
-    version: 
