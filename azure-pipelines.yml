@@ -54,3 +54,11 @@ steps:
     key: 'toto'
     path: '/home/vsts/ver'
     cacheHitVar: 'testcache'
+
+- task: DownloadGitHubRelease@0
+  inputs:
+    connection: 'github.com_Simplon-AlainCaupin'
+    userRepository: 'Simplon-AlainCaupin/brief7'
+    defaultVersionType: 'latest'
+    itemPattern: '*app*'
+    downloadPath: /home/vsts/gitrelease
