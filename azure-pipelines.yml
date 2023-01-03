@@ -44,7 +44,7 @@ steps:
       mkdir /home/vsts/ver
       TESTVAR=$(curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')
       echo "bli bla blou !"
-      echo "$TESTVAR" > /home/vsts/ver/version
+      echo "$TESTVAR"|sed 's/^.//;s/.$//' > /home/vsts/ver/version
       echo "------------- blblblbl ------------"
       echo "RESULTAT :"
       cat /home/vsts/ver/version
@@ -62,3 +62,4 @@ steps:
     defaultVersionType: 'latest'
     itemPattern: '*app*'
     downloadPath: /home/vsts/gitrelease
+    version: 
