@@ -54,3 +54,22 @@ steps:
     key: 'toto'
     path: '/home/vsts/ver'
     cacheHitVar: 'testcache'
+
+- task: DownloadGitHubRelease@0
+  inputs:
+    connection: 'github.com_Simplon-AlainCaupin'
+    userRepository: 'Simplon-AlainCaupin/brief7'
+    defaultVersionType: 'latest'
+    downloadPath: '$(System.ArtifactsDirectory)'
+    
+- task: GitHubRelease@1
+  inputs:
+    gitHubConnection: 'github.com_Simplon-AlainCaupin'
+    repositoryName: 'Simplon-AlainCaupin/brief7'
+    action: 'edit'
+    target: '$(Build.SourceVersion)'
+    tag: 'tagtest'
+    title: 'releasetest'
+    assetUploadMode: 'replace'
+    changeLogCompareToRelease: 'lastFullRelease'
+    changeLogType: 'commitBased'
