@@ -25,6 +25,7 @@ steps:
   inputs:
     connectionType: 'Kubernetes Service Connection'
     KubernetesServiceEndpoint: 'connectakslain'
+    secretType: 'generic'
 #     namespace: 'default'
     command: 'top'
     arguments: 'pod'
