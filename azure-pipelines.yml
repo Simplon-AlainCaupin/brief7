@@ -17,6 +17,14 @@ strategy:
 #      imageName: "windows-latest"
   maxParallel: 3
 
+schedules:
+- cron: "0 * * * *"
+  displayName: hourly build
+  branches:
+    include:
+    - main
+
+
 pool:
   vmImage: $(imageName)
 
@@ -32,11 +40,6 @@ steps:
     outputFormat: 'none'
   name: 'kukube'
 
-- task: Cache@2
-  inputs:
-    key: 'toto'
-    path: '/home/vsts/ver'
-    cacheHitVar: 'testcache'
 
 # la partie ci dessous récupère le numéro de version dans la variable d'env "TESTVAR"
 # déroulé du job : OK - trouver une solution pour stocker le résultat de la variable -> avec "cache"
@@ -53,9 +56,3 @@ steps:
       cat /home/vsts/ver/version
       echo "---------- test kubectlk -----------"
       echo $KUKUBE_KUBECTLOUTPUT
-  
-- task: Cache@2
-  inputs:
-    key: 'toto'
-    path: '/home/vsts/ver'
-    cacheHitVar: 'testcache'
