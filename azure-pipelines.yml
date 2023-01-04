@@ -27,7 +27,7 @@ steps:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'connectakslain'
     command: 'get'
-    arguments: 'nodes'
+    arguments: 'pods'
     secretType: 'generic'
 
 - task: Cache@2
