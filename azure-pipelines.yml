@@ -51,7 +51,7 @@ steps:
       echo "RESULTAT :"
       cat /home/vsts/ver/version
       echo "---------- test kubectlk -----------"
-      # echo $(kukube.KubectlOutput)
+      echo $(kukube.KubectlOutput)
   
 - task: Cache@2
   inputs:
