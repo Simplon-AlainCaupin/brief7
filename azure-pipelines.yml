@@ -21,14 +21,14 @@ pool:
   vmImage: $(imageName)
 
 steps:
+
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    KubernetesServiceEndpoint: 'connectakslain'
+    kubernetesServiceEndpoint: 'connectakslain'
+    command: 'get'
+    arguments: 'nodes'
     secretType: 'generic'
-#     namespace: 'default'
-    command: 'top'
-    arguments: 'pod'
 
 - task: Cache@2
   inputs:
@@ -49,8 +49,6 @@ steps:
       echo "------------- blblblbl ------------"
       echo "RESULTAT :"
       cat /home/vsts/ver/version
-      echo "--------test kubectl--------"
-      kubectl get nodes
   
 
 
