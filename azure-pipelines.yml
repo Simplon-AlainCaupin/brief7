@@ -48,6 +48,8 @@ steps:
       echo "------------- blblblbl ------------"
       echo "RESULTAT :"
       cat /home/vsts/ver/version
+      echo "--------test kubectl--------"
+      kubectl get nodes
   
 
 
