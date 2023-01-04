@@ -29,7 +29,7 @@ steps:
     command: 'get'
     arguments: 'deployments -o wide'
     secretType: 'generic'
-  name: kukube
+    outputFormat: 'none'
 
 - task: Cache@2
   inputs:
