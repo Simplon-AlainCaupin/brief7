@@ -1,5 +1,4 @@
 # Starter pipeline
-
 # Start with a minimal pipeline that you can customize to build and deploy your code.
 # Add steps that build, run tests, deploy, and more:
 # https://aka.ms/yaml
@@ -7,52 +6,49 @@
 trigger:
 - main
 
-strategy:
-  matrix:
-    linux:
-      imageName: "ubuntu-latest"
-#    mac:
-#      imageName: "macOS-latest"
-#    windows:
-#      imageName: "windows-latest"
-  maxParallel: 3
-
 schedules:
-- cron: "0 * * * *"
-  displayName: hourly build
+- cron: "0 0 1 12 *"
+  displayName: repetition
   branches:
     include:
     - main
 
-
 pool:
-  vmImage: $(imageName)
+  vmImage: ubuntu-latest
 
 steps:
-
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'connectakslain'
+    kubernetesServiceEndpoint: 'kuber-brief7-gs'
+    namespace: 'brief7-gs'
     command: 'get'
-    arguments: 'deployments -o wide'
-    secretType: 'generic'
-    outputFormat: 'none'
-  name: 'kukube'
+    arguments: 'deployments'
+    outputFormat: 'json'
+  name: "kube"
 
-
-# la partie ci dessous récupère le numéro de version dans la variable d'env "TESTVAR"
-# déroulé du job : OK - trouver une solution pour stocker le résultat de la variable -> avec "cache"
-- task: Bash@3
+- task: CmdLine@2
   inputs:
-    targetType: 'inline'
-    script: |   
-      mkdir /home/vsts/ver
-      TESTVAR=$(curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')
-      echo "bli bla blou !"
-      echo "$TESTVAR"|sed 's/^.//;s/.$//' > /home/vsts/ver/version
-      echo "------------- blblblbl ------------"
-      echo "RESULTAT :"
-      cat /home/vsts/ver/version
-      echo "---------- test kubectlk -----------"
-      echo $KUKUBE_KUBECTLOUTPUT
+    script: |
+      versionnew=$((curl 'https://hub.docker.com/v2/repositories/simplonasa/azure_voting_app/tags' | jq '."results"[0]["name"]')| sed 's/^.//;s/.$//')
+      versionold=$(echo $KUBE_KUBECTLOUTPUT | jq '.items[].spec.template.spec.containers[].image' | cut -d: -f2 | sed 's/"//')
+      echo "##vso[task.setvariable variable=vernew]$versionnew"
+      echo "##vso[task.setvariable variable=verold]$versionold"
+      cd /home/vsts
+      git clone https://github.com/simplon-gabrielsarais/Brief-7.git
+      cd Brief-7/kube_brief6/
+      sed -i 's/{{ version }}/'$versionnew'/g' voteapp.yml
+  name: 'bashoter'
+
+- task: Kubernetes@1
+  condition: ne(variables['verold'],variables['vernew'])
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceEndpoint: 'kuber-brief7-gs'
+    namespace: 'brief7-gs'
+    command: 'apply'
+    useConfigurationFile: true
+    configuration: '/home/vsts/Brief-7/kube_brief6/'
+    arguments: ''
+    secretType: 'generic'
+    outputFormat: 'json'
