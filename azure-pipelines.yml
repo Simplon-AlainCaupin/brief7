@@ -31,7 +31,6 @@ steps:
     secretType: 'generic'
     outputFormat: 'none'
   name: 'kukube'
-- script: echo $(kukube.out)
 
 - task: Cache@2
   inputs:
@@ -53,7 +52,7 @@ steps:
       echo "RESULTAT :"
       cat /home/vsts/ver/version
       echo "---------- test kubectlk -----------"
-      echo $kube.kubectloutput
+      echo $KUKUBE_KUBECTLOUTPUT
   
 - task: Cache@2
   inputs:
