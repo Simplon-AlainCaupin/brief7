@@ -26,8 +26,8 @@ steps:
   inputs:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'connectakslain'
-    command: 'get deployments -o wide'
-    arguments: 'pods'
+    command: 'get'
+    arguments: 'deployments -o wide'
     secretType: 'generic'
 
 - task: Cache@2
@@ -38,7 +38,6 @@ steps:
 
 # la partie ci dessous récupère le numéro de version dans la variable d'env "TESTVAR"
 # déroulé du job : OK - trouver une solution pour stocker le résultat de la variable -> avec "cache"
-
 - task: Bash@3
   inputs:
     targetType: 'inline'
