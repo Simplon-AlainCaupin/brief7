@@ -30,6 +30,7 @@ steps:
     arguments: 'deployments -o wide'
     secretType: 'generic'
     outputFormat: 'none'
+  name: 'kukube'
 
 - task: Cache@2
   inputs:
