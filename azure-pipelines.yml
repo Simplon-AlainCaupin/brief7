@@ -37,7 +37,7 @@ steps:
       cd /home/vsts
       git clone https://github.com/Simplon-AlainCaupin/brief7.git
       cd brief7/app/
-      sed -i 's/{{ version }}/'$versionnew'/g' appvote.yml
+      sed -i 's/{{ version }}/'$versionnew'/g' app-deploy.yml
   name: 'bashver'
 
 - task: Kubernetes@1
