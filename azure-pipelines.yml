@@ -21,7 +21,7 @@ steps:
   inputs:
     connectionType: 'Kubernetes Service Connection'
     kubernetesServiceEndpoint: 'connectakslain'
-    namespace: 'brief7lain'
+    namespace: 'default'
     command: 'get'
     arguments: 'deployments'
     outputFormat: 'json'
