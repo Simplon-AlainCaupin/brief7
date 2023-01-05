@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  labels:
+    app: redislb
+spec:
+  selector:
+    matchLabels:
+      app: redislb
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: redislb
+    spec:
+      volumes: 
+      - name: vol
+        persistentVolumeClaim:
+          claimName: redisclaim
+      containers:
+      - name: redis
+        image: redis
+        args: ["--requirepass","$(REDIS_PWD)"]
+        env:
+        - name: ALLOW_EMPTY_PASSWORD
+          value: "no"
+        - name: REDIS_PWD
+          valueFrom:
+            secretKeyRef:
+              name: redisecret
+              key: password
+        ports:
+        - containerPort: 6379
+          name: redis
+        volumeMounts:
+        - name: vol
+          mountPath: "/data"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: clustredis
+spec:
+  type: ClusterIP
+  ports:
+  - port: 6379
+  selector:
+    app: redislb
