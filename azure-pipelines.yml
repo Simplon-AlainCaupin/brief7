@@ -38,7 +38,7 @@ steps:
       git clone https://github.com/Simplon-AlainCaupin/brief7.git
       cd brief7/app/
       sed -i 's/{{ version }}/'$versionnew'/g' appvote.yml
-  name: 'bashoter'
+  name: 'bashver'
 
 - task: Kubernetes@1
   condition: ne(variables['verold'],variables['vernew'])
