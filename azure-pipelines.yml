@@ -24,7 +24,6 @@ steps:
     namespace: 'default'
     command: 'get'
     arguments: 'deployments'
-    outputFormat: 'json'
   name: "kube"
 
 - task: CmdLine@2
