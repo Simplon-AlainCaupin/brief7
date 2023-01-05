@@ -20,8 +20,8 @@ steps:
 - task: Kubernetes@1
   inputs:
     connectionType: 'Kubernetes Service Connection'
-    kubernetesServiceEndpoint: 'connectakslain'
-    namespace: 'brief7lain'
+    kubernetesServiceEndpoint: 'aksconnectlain'
+    namespace: 'default'
     command: 'get'
     arguments: 'deployments'
     outputFormat: 'json'
