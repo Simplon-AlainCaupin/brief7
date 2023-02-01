@@ -40,6 +40,8 @@ steps:
       sed -i 's/{{ version }}/'$versionnew'/g' app-deploy.yml
   name: 'bashver'
 
+# en "bonne" pratique, séparer la partie ci dessus dans un fichier isolé sur le repo github et l'appeler sur le pipeline !
+
 - task: Kubernetes@1
   condition: ne(variables['verold'],variables['vernew'])
   inputs:
