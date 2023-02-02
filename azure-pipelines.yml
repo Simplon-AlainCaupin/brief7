@@ -1,8 +1,3 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
 - main
 
@@ -47,6 +42,7 @@ steps:
 # bonne pratique, séparer la partie ci dessus dans un fichier isolé sur le repo github et l'appeler sur le pipeline !
 
 # ci dessous : comparaison de la version dockerhub avec la version actuelle
+
 - task: Kubernetes@1
   condition: ne(variables['verold'],variables['vernew'])
   inputs:
