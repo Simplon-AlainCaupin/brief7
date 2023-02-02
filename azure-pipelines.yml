@@ -6,6 +6,8 @@
 trigger:
 - main
 
+#CRON à modifier suivant récurrence voulue
+
 schedules:
 - cron: "0 18 1 1 *"
   displayName: repetition
@@ -27,6 +29,8 @@ steps:
     arguments: 'deployments'
   name: "kube"
 
+# ci dessous : récupération n° de version dans les variables "vernew" et "verold"
+
 - task: CmdLine@2
   inputs:
     script: |
@@ -40,8 +44,9 @@ steps:
       sed -i 's/{{ version }}/'$versionnew'/g' app-deploy.yml
   name: 'bashver'
 
-# en "bonne" pratique, séparer la partie ci dessus dans un fichier isolé sur le repo github et l'appeler sur le pipeline !
+# bonne pratique, séparer la partie ci dessus dans un fichier isolé sur le repo github et l'appeler sur le pipeline !
 
+# ci dessous : comparaison de la version dockerhub avec la version actuelle
 - task: Kubernetes@1
   condition: ne(variables['verold'],variables['vernew'])
   inputs:
