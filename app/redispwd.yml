@@ -4,4 +4,4 @@ metadata:
   name: redis
 type: Opaque
 data:
-  REDIS_PWD : dG90bzEyMzQ=
+  REDIS_PWD: dG90bw==

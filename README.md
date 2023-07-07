@@ -26,3 +26,13 @@ Sur 2 nodes ont été déployés l'application et une base redis, ainsi que le s
 L'application est accessible via l'ingress de l'application gateway du cluster AKS et le fqdn associé.
 Un certificat TLS a été mis en place, intégré dans l'infra via un écouteur sur le port 443 et une règle de redirection associée.
 Le ceertificat a été déployé via un manifeste en local, encodé en base64
+
+
+kubectl create secret generic 'client-auth-ca-cert' -n 'default' --from-file='ca.crt=ca.crt'
+curl -vk https://brief11.alain-cpn.space --resolve example.com:443:20.86.254.149 --cert "$DOMAIN.crt" --key "$DOMAIN.key"
+
+
+kubectl create secret generic traefik-sso \
+--from-literal=clientid=284179082398-5a7ojs2gp01q5iv2kqkfjm8scjmoqju1.apps.googleusercontent.com \
+--from-literal=clientsecret=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 \
+--from-literal=secret=b8dbeb5e2e5d222451a9aa674a2715cc
